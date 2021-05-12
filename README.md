@@ -1,6 +1,9 @@
 # synapse-element-chat-docker
 
-Start your own self-hosted chat application.
+Start your own self-hosted, privacy-respectful, end-to-end encrypted chat and call application.
+
+- Web app (included)
+- Mobile app ([Google Play](https://play.google.com/store/apps/details?id=im.vector.app) or [build from source](https://github.com/vector-im/element-android))
 
 ## Install
 
@@ -11,6 +14,7 @@ Generating fresh config file and certificates (edit `SYNAPSE_SERVER_NAME` accord
 ```bash
 docker-compose run --rm -e SYNAPSE_SERVER_NAME=localhost -e SYNAPSE_REPORT_STATS=no synapse generate
 
+# Temporary changing permissions for editing conf files
 sudo chown -R $USER ./synapse_data
 sudo chmod -R 755 ./synapse_data
 ```
@@ -46,7 +50,7 @@ openssl genrsa -out ./synapse_data/localhost.tls.key 2048
 openssl req -new -x509 -sha256 -days 1095 -subj "/C=FR/ST=IDF/L=PARIS/O=EXAMPLE/CN=Synapse" -key ./synapse_data/localhost.tls.key -out ./synapse_data/localhost.tls.crt
 ```
 
-Remove these lines :
+**Remove** these lines :
 
 ```yml
 trusted_key_servers:
@@ -62,7 +66,7 @@ trusted_key_servers:
       compress: false
 ```
 
-Add these lines and edit accordingly with `localhost.signing.key` content :
+**Add** these lines and edit accordingly with `localhost.signing.key` content :
 
 ```yml
 trusted_key_servers:
@@ -78,7 +82,7 @@ trusted_key_servers:
 
 ### Postgres configuration
 
-Remove these lines :
+**Remove** these lines :
 
 ```yml
 database:
@@ -87,7 +91,7 @@ database:
     database: /data/homeserver.db
 ```
 
-Add these lines :
+**Add** these lines :
 
 ```yml
 database:
@@ -104,7 +108,8 @@ database:
 ### Start
 
 ```bash
-sudo chmod -R 755 ./synapse_data
+# Final conf file permissions
+sudo chmod -R 711 ./synapse_data
 sudo chown -R 991 ./synapse_data
 
 docker-compose up -d
