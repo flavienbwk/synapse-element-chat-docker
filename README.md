@@ -41,7 +41,6 @@ In `homeserver.yaml`, uncomment and edit the following lines :
 
 - `tls_certificate_path: "/data/localhost.tls.crt"`
 - `tls_private_key_path: "/data/localhost.tls.key"`
-- `federation_verify_certificates: false`
 
 Then let's generate SSL certificates :
 
