@@ -106,4 +106,8 @@ database:
 ```bash
 sudo chmod -R 755 ./synapse_data
 sudo chown -R 991 ./synapse_data
+
+docker-compose up -d
 ```
+
+Access the UI at `localhost:8448`
