@@ -4,6 +4,7 @@ Start your own self-hosted, privacy-respectful, end-to-end encrypted chat and ca
 
 - Web app (included)
 - Mobile app ([Google Play](https://play.google.com/store/apps/details?id=im.vector.app) or [build from source](https://github.com/vector-im/element-android))
+- Desktop app ([download](https://element.io/get-started) or [build from source](https://github.com/vector-im/element-desktop))
 
 ## Install
 
@@ -29,15 +30,15 @@ In `localhost.log.config` edit the following line as-is :
 
 - `filename: /data/homeserver.log`
 
-In `homeserver.yaml`, uncomment and edit the following lines :
+In `homeserver.yaml`, uncomment and edit the following line :
 
-- `enable_registration: true`
+- `enable_registration: true` (you may want to disable it later)
 
 ### SSL certificates
 
 We're going to enable SSL certificates
 
-In `homeserver.yaml`, uncomment and edit the following lines :
+In `homeserver.yaml`, uncomment the following lines :
 
 - `tls_certificate_path: "/data/localhost.tls.crt"`
 - `tls_private_key_path: "/data/localhost.tls.key"`
