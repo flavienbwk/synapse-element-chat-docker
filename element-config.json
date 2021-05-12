@@ -14,6 +14,9 @@
 		"authHeaderLogoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/GitHub_logo_2013.svg/238px-GitHub_logo_2013.svg.png",
 		"authFooterLinks": [ { "text": "Link text", "url": "https://link.target" } ]
 	},
+	"disable_custom_urls": true,
+	"disable_guests": true,
+	"disable_3pid_login": true,
 	"integrations_ui_url": "http://localhost:8080/",
 	"integrations_rest_url": "https://synapse:8448/",
 	"showLabsSettings": true,
