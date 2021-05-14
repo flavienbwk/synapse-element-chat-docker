@@ -11,17 +11,27 @@ services:
             - ./synapse_data:/data
         depends_on:
             - database
-        # In order to expose Synapse, remove one of the following, you might for
-        # instance expose the TLS port directly:
-        ports:
-            - 8448:8448
 
     web:
         image: vectorim/element-web:latest
         volumes:
             - ./element-config.json:/app/config.localhost.json:ro
+
+    # We set-up an NGINX to have a unique endpoint for app (web) & api (synapse)
+    nginx:
+        build:
+            context: nginx
+            dockerfile: Dockerfile
+        restart: always
         ports:
-            - 8080:80
+            - "8443:443"
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/matrix.conf:ro
+            - ./nginx_logs:/var/log/nginx
+            - ./synapse_data:/synapse_data:ro
+        depends_on:
+            - synapse
+            - web
 
     database:
         image: postgres:13.2-alpine

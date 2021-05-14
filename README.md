@@ -43,7 +43,7 @@ openssl genrsa -out ./synapse_data/localhost.tls.key 2048
 openssl req -new -x509 -sha256 -days 1095 -subj "/C=FR/ST=IDF/L=PARIS/O=EXAMPLE/CN=Synapse" -key ./synapse_data/localhost.tls.key -out ./synapse_data/localhost.tls.crt
 ```
 
-In `homeserver.yaml`, uncomment the following lines :
+In `./synapse_data/homeserver.yaml`, uncomment the following lines :
 
 - `tls_certificate_path: "/data/localhost.tls.crt"`
 - `tls_private_key_path: "/data/localhost.tls.key"`
@@ -64,7 +64,7 @@ trusted_key_servers:
       compress: false
 ```
 
-**Add** these lines and edit accordingly with `localhost.signing.key` content :
+**Add** these lines and edit accordingly with `./synapse_data/localhost.signing.key` content :
 
 ```yml
 trusted_key_servers:
@@ -83,6 +83,13 @@ trusted_key_servers:
   - server_name: "localhost"
   - server_name: "mydomain2"
   - server_name: "mydomain3"
+```
+
+**Edit** the SSL certificates lines accordingly to your host in `./nginx/nginx.conf` :
+
+```conf
+ssl_certificate     /synapse_data/localhost.tls.crt;
+ssl_certificate_key /synapse_data/localhost.tls.key;
 ```
 
 ### Postgres configuration

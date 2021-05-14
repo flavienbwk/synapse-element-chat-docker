@@ -1,13 +1,13 @@
 {
 	"default_server_config": {
-        "m.homeserver": {
-            "base_url": "https://localhost:8448",
-            "server_name": "localhost:8448"
-        },
-        "m.identity_server": {
-            "base_url": "https://localhost:8448"
-        }
-    },
+		"m.homeserver": {
+			"base_url": "https://localhost:8443",
+			"server_name": "localhost:8443"
+		},
+		"m.identity_server": {
+			"base_url": "https://localhost:8443"
+		}
+	},
 	"brand": "My Great Company",
 	"branding": {
 		"welcomeBackgroundUrl": "https://opensource.com/sites/default/files/styles/image-full-size/public/lead-images/github-universe.jpg",
@@ -17,11 +17,11 @@
 	"disable_custom_urls": true,
 	"disable_guests": true,
 	"disable_3pid_login": true,
-	"integrations_ui_url": "http://localhost:8080/",
+	"integrations_ui_url": "http://localhost:8443/",
 	"integrations_rest_url": "https://synapse:8448/",
 	"showLabsSettings": true,
 	"roomDirectory": {
-		"servers": [ "localhost:8448" ]
+		"servers": [ "localhost:8443" ]
 	},
 	"terms_and_conditions_links": [
 		{
