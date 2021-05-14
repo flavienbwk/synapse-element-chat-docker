@@ -38,17 +38,15 @@ In `homeserver.yaml`, uncomment and edit the following line :
 
 We're going to enable SSL certificates
 
-In `homeserver.yaml`, uncomment the following lines :
-
-- `tls_certificate_path: "/data/localhost.tls.crt"`
-- `tls_private_key_path: "/data/localhost.tls.key"`
-
-Then let's generate SSL certificates :
-
 ```bash
 openssl genrsa -out ./synapse_data/localhost.tls.key 2048
 openssl req -new -x509 -sha256 -days 1095 -subj "/C=FR/ST=IDF/L=PARIS/O=EXAMPLE/CN=Synapse" -key ./synapse_data/localhost.tls.key -out ./synapse_data/localhost.tls.crt
 ```
+
+In `homeserver.yaml`, uncomment the following lines :
+
+- `tls_certificate_path: "/data/localhost.tls.crt"`
+- `tls_private_key_path: "/data/localhost.tls.key"`
 
 **Remove** these lines :
 
@@ -73,11 +71,18 @@ trusted_key_servers:
   - server_name: "localhost"
     verify_keys:
       "ed25519 xxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 - port: 8448
   type: http
   tls: true
   resources:
     - names: [client, federation]
+
+# If using multiple Synapse instances
+trusted_key_servers:
+  - server_name: "localhost"
+  - server_name: "mydomain2"
+  - server_name: "mydomain3"
 ```
 
 ### Postgres configuration
