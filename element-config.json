@@ -17,8 +17,8 @@
 	"disable_custom_urls": true,
 	"disable_guests": true,
 	"disable_3pid_login": true,
-	"integrations_ui_url": "http://localhost:8443/",
-	"integrations_rest_url": "https://synapse:8448/",
+	"integrations_ui_url": "https://localhost:8443",
+	"integrations_rest_url": "https://localhost:8443",
 	"showLabsSettings": true,
 	"roomDirectory": {
 		"servers": [ "localhost:8443" ]
