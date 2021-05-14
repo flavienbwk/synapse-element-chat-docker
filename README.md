@@ -34,7 +34,7 @@ sudo chmod -R 755 ./synapse_data
 
 - `enable_registration: true` (you may want to disable it later)
 
-**Edit** the `localhost` part by your hostname in `docker-compose.yml` : 
+**Edit** the `config.localhost.json` filename if needed by your hostname in `docker-compose.yml` :
 
 ```yml
   volumes:
