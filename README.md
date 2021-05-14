@@ -134,4 +134,10 @@ sudo chown -R 991 ./synapse_data
 docker-compose up -d
 ```
 
+Add a user as server admin :
+
+```bash
+docker-compose exec synapse register_new_matrix_user -u <USERNAME> -p <PASSWORD> -a https://localhost:8448 -c /data/homeserver.yaml
+```
+
 Access the UI at `localhost:8448`
