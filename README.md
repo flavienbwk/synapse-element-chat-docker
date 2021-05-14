@@ -26,13 +26,20 @@ sudo chmod -R 755 ./synapse_data
 - `localhost.log.config` : logging strategy
 - `localhost.signing.key` : signing key
 
-In `localhost.log.config` edit the following line as-is :
+**Edit** the following line as-is in `localhost.log.config` :
 
 - `filename: /data/homeserver.log`
 
-In `homeserver.yaml`, uncomment and edit the following line :
+**Uncomment and edit** the following line in `homeserver.yaml` :
 
 - `enable_registration: true` (you may want to disable it later)
+
+**Edit** the `localhost` part by your hostname in `docker-compose.yml` : 
+
+```yml
+  volumes:
+    - ./element-config.json:/app/config.localhost.json:ro
+```
 
 ### SSL certificates
 
