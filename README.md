@@ -73,24 +73,29 @@ trusted_key_servers:
 
 **Add** these lines and edit accordingly with `./synapse_data/localhost.signing.key` content :
 
-```yml
-trusted_key_servers:
-  - server_name: "localhost"
-    verify_keys:
-      "ed25519 xxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  ```yml
+  trusted_key_servers:
+    - server_name: "localhost"
+      verify_keys:
+        "ed25519:xxxxxxx": xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  ```
 
-- port: 8448
-  type: http
-  tls: true
-  resources:
-    - names: [client, federation]
+  ```yml
+  listeners:
+    - port: 8448
+      type: http
+      tls: true
+      resources:
+        - names: [client, federation]
+  ```
 
-# If using multiple Synapse instances
-trusted_key_servers:
-  - server_name: "localhost"
-  - server_name: "mydomain2"
-  - server_name: "mydomain3"
-```
+  ```yml
+  # If using multiple Synapse instances
+  trusted_key_servers:
+    - server_name: "localhost"
+    - server_name: "mydomain2"
+    - server_name: "mydomain3"
+  ```
 
 **Edit** the SSL certificates lines accordingly to your host in `./nginx/nginx.conf` :
 
