@@ -24,6 +24,7 @@ services:
             dockerfile: Dockerfile
         restart: always
         ports:
+            - "8080:80" # auto-redirect to HTTPS
             - "8443:443"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/conf.d/matrix.conf:ro
