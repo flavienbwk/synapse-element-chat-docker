@@ -71,13 +71,14 @@ trusted_key_servers:
       compress: false
 ```
 
-**Add** these lines and edit accordingly with `./synapse_data/localhost.signing.key` content :
+**Add** these lines and edit content :
 
   ```yml
   trusted_key_servers:
     - server_name: "localhost"
       verify_keys:
         "ed25519:xxxxxxx": xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        # Replace accordingly to `./synapse_data/localhost.signing.key`
   ```
 
   ```yml
