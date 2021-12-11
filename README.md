@@ -103,7 +103,7 @@ trusted_key_servers:
 ```conf
 ssl_certificate     /synapse_data/localhost.tls.crt;
 ssl_certificate_key /synapse_data/localhost.tls.key;
-```r
+```
 
 :information_source: If you're using Cloudflare and getting 521 error, set Cloudflare's SSL policy to "strict".
 
