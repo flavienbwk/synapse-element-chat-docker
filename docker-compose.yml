@@ -25,8 +25,12 @@ services:
             dockerfile: Dockerfile
         restart: always
         ports:
+            ## Element
             - "8080:80" # auto-redirect to HTTPS
             - "8443:443"
+            ## STUN/TURN SSL
+            - "5349:5349"
+            - "5349:5349/udp"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/conf.d/matrix.conf:ro
             - ./nginx_logs:/var/log/nginx
@@ -49,5 +53,51 @@ services:
             # You may store the database tables in a local folder..
             - database:/var/lib/postgresql/data
 
+    coturn:
+        image: coturn/coturn:4.5.2
+        restart: always
+        volumes:
+            - ./coturn/turnserver.conf:/etc/turnserver.conf:ro
+            - ./synapse_data:/synapse_data:ro
+        #ports:
+            ## STUN/TURN
+            # - "3478:3478"
+            # - "3478:3478/udp"
+            # - "3479:3479"
+            # - "3479:3479/udp"
+            # - "80:80"
+            # - "80:80/udp"
+            ## STUN/TURN SSL
+            # - "5349:5349"
+            # - "5349:5349/udp"
+            # - "5350:5350"
+            # - "5350:5350/udp"
+            # - "443:443"
+            # - "443:443/udp"
+            # Relay Ports
+            # - "49152-65535:49152-65535"
+            # - "49152-65535:49152-65535/udp"
+        environment: 
+            - POSTGRES_DB=coturn
+            - POSTGRES_USER=coturn_user
+            - POSTGRES_PASSWORD=coturn_password
+        depends_on:
+            - coturn_database
+
+    coturn_database:
+        image: postgres:13.2-alpine
+        restart: always
+        volumes:
+            - ./coturn/postgres.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+            - coturn_database:/var/lib/postgresql
+            # ensure the database gets created correctly
+            # https://github.com/matrix-org/synapse/blob/master/docs/postgres.md#set-up-database
+            - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+        environment: 
+            - POSTGRES_DB=coturn
+            - POSTGRES_USER=coturn_user
+            - POSTGRES_PASSWORD=coturn_password
+
 volumes:
     database:
+    coturn_database:

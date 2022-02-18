@@ -132,6 +132,24 @@ database:
     cp_max: 10
 ```
 
+### Coturn configuration
+
+Coturn is a VoIP server. If you don't configure it, you won't be able to call users in Synapse.
+
+1. Edit `coturn/turnserver.conf`
+
+     - `static-auth-secret`
+     - `realm`
+
+2. Add the following configuration to `synapse_data/homeserver.yaml` and match the right `static-auth-secret`
+
+    ```bash
+    turn_uris: [ "turn:coturn:3478?transport=udp" ]
+    turn_shared_secret: <cset_static-auth-secret_value>
+    turn_user_lifetime: 86400000
+    turn_allow_guests: False
+    ```
+
 ### Start
 
 ```bash

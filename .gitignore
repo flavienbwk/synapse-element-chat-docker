@@ -1,2 +1,4 @@
 synapse_data/
 nginx_logs/
+coturn/certs/*
+!coturn/certs/.gitkeep
