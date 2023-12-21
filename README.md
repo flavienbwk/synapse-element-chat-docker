@@ -26,20 +26,14 @@ sudo chmod -R 755 ./synapse_data
 - `localhost.log.config` : logging strategy
 - `localhost.signing.key` : signing key
 
-**Edit** the following line as-is in `localhost.log.config` :
+**Append** the following lines in `homeserver.yaml` :
 
-- `filename: /data/homeserver.log`
-
-**Uncomment and edit** the following line in `homeserver.yaml` :
-
-- `enable_registration: true` (you may want to disable it later)
-
-**Edit** the `config.localhost.json` filename if needed by your hostname in `docker-compose.yml` :
-
-```yml
-  volumes:
-    - ./element-config.json:/app/config.localhost.json:ro
+```bash
+enable_registration: true
+enable_registration_without_verification: true
 ```
+
+You may want to disable it later.
 
 ### SSL certificates
 
@@ -50,10 +44,12 @@ openssl genrsa -out ./synapse_data/localhost.tls.key 2048
 openssl req -new -x509 -sha256 -days 1095 -subj "/C=FR/ST=IDF/L=PARIS/O=EXAMPLE/CN=Synapse" -key ./synapse_data/localhost.tls.key -out ./synapse_data/localhost.tls.crt
 ```
 
-In `./synapse_data/homeserver.yaml`, uncomment the following lines :
+In `./synapse_data/homeserver.yaml`, **append** the following lines :
 
-- `tls_certificate_path: "/data/localhost.tls.crt"`
-- `tls_private_key_path: "/data/localhost.tls.key"`
+```bash
+tls_certificate_path: "/data/localhost.tls.crt"
+tls_private_key_path: "/data/localhost.tls.key"
+```
 
 **Remove** these lines :
 
@@ -71,14 +67,14 @@ trusted_key_servers:
       compress: false
 ```
 
-**Add** these lines and edit content :
+**Append** these lines and edit content :
 
   ```yml
   trusted_key_servers:
     - server_name: "localhost"
       verify_keys:
-        "ed25519:xxxxxxx": xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        # Replace accordingly to `./synapse_data/localhost.signing.key`
+        "ed25519:xxxxxxx": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        # Replace accordingly to `cat ./synapse_data/*.signing.key`
   ```
 
   ```yml
@@ -86,6 +82,11 @@ trusted_key_servers:
     - port: 8448
       type: http
       tls: true
+      resources:
+        - names: [client, federation]
+    - port: 8008
+      type: http
+      tls: false
       resources:
         - names: [client, federation]
   ```
@@ -98,14 +99,11 @@ trusted_key_servers:
     - server_name: "mydomain3"
   ```
 
-**Edit** the SSL certificates lines accordingly to your host in `./nginx/nginx.conf` :
-
-```conf
-ssl_certificate     /synapse_data/localhost.tls.crt;
-ssl_certificate_key /synapse_data/localhost.tls.key;
-```
-
 :information_source: If you're using Cloudflare and getting 521 error, set Cloudflare's SSL policy to "strict".
+
+**Update** the value of synapse-admin's `REACT_APP_SERVER` variable to match the URL of your Matrix server. Ex: `https://localhost:8443` (without quotation marks)
+
+**Update** the value of synapse-admin's `PUBLIC_URL` variable to match the URL of your publicly-exposed Synapse endpoint. Ex: `https://localhost:8443/synapse-admin` (without quotation marks)
 
 ### Postgres configuration
 
@@ -145,7 +143,13 @@ docker-compose up -d
 Add a user as server admin :
 
 ```bash
-docker-compose exec synapse register_new_matrix_user -u <USERNAME> -p <PASSWORD> -a https://localhost:8448 -c /data/homeserver.yaml
+docker-compose exec synapse register_new_matrix_user -u <USERNAME> -p <PASSWORD> -a http://localhost:8008 -c /data/homeserver.yaml
 ```
 
-Access the UI at `localhost:8448`
+Access the UI at `https://localhost:8443`
+
+## Administrate
+
+You can access the Synapse Admin interface to manage users at `http://localhost:8999`
+
+Make sure to restrict access to this UI only to your administration network.

@@ -18,6 +18,20 @@ services:
         volumes:
             - ./element-config.json:/app/config.localhost.json:ro
 
+    synapse-admin:
+        container_name: synapse-admin
+        hostname: synapse-admin
+        build:
+            context: https://github.com/Awesome-Technologies/synapse-admin.git
+            args:
+              - NODE_OPTIONS="--max_old_space_size=1024"
+              # see #266, PUBLIC_URL must be without surrounding quotation marks
+              - PUBLIC_URL=https://localhost:8443/synapse-admin
+              - REACT_APP_SERVER=https://localhost:8443
+        ports:
+            - "127.0.0.1:8999:80"
+        restart: unless-stopped
+
     # We set-up an NGINX to have a unique endpoint for app (web) & api (synapse)
     nginx:
         build:
